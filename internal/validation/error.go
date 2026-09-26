@@ -44,4 +44,8 @@ const (
 	CodeNonPositiveNDP = "non_positive_ndp"
 	// CodeSaltBalanceViolation 进料盐量不等于产水盐量加浓水盐量。
 	CodeSaltBalanceViolation = "salt_balance_violation"
+	// CodeInvalidStageCount 多段阵列段数不合法（小于 1，或段列表为空）。
+	CodeInvalidStageCount = "invalid_stage_count"
+	// CodeStageCountMismatch 显式声明的段数与实际段列表长度不一致。
+	CodeStageCountMismatch = "stage_count_mismatch"
 )
