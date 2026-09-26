@@ -44,4 +44,11 @@ const (
 	CodeNonPositiveNDP = "non_positive_ndp"
 	// CodeSaltBalanceViolation 进料盐量不等于产水盐量加浓水盐量。
 	CodeSaltBalanceViolation = "salt_balance_violation"
+	// CodeInvalidStageCount 多段阵列段数非法（<1）或声明段数与实际段数不符。
+	CodeInvalidStageCount = "invalid_stage_count"
+	// CodeMissingStageParameter 某一段缺了必须逐段给全的膜参数。
+	CodeMissingStageParameter = "missing_stage_parameter"
+	// CodeArraySaltBalanceViolation 跨段全局盐量不守恒：
+	// 首段进料盐量 ≠ 各段产水盐量之和 + 末段浓水盐量。
+	CodeArraySaltBalanceViolation = "array_salt_balance_violation"
 )

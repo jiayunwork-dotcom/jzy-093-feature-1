@@ -13,6 +13,7 @@ import (
 // Server 装配登记表与 HTTP 路由。
 type Server struct {
 	registry *cases.Registry
+	arrays   *cases.ArrayRegistry
 	mux      *http.ServeMux
 }
 
@@ -21,9 +22,10 @@ func NewServer() *Server {
 	return NewServerWithRegistry(cases.NewDefaultRegistry())
 }
 
-// NewServerWithRegistry 使用指定登记表创建服务（测试可注入空表）。
+// NewServerWithRegistry 使用指定工况档登记表创建服务（测试可注入空表）。
+// 阵列配置登记表始终新建一份，与工况档登记表相互独立。
 func NewServerWithRegistry(r *cases.Registry) *Server {
-	s := &Server{registry: r, mux: http.NewServeMux()}
+	s := &Server{registry: r, arrays: cases.NewArrayRegistry(), mux: http.NewServeMux()}
 	s.routes()
 	return s
 }
@@ -43,6 +45,14 @@ func (s *Server) routes() {
 	s.mux.HandleFunc("POST /v1/cases/{name}/evaluate", s.handleEvaluateCase)
 
 	s.mux.HandleFunc("POST /v1/evaluate", s.handleEvaluateAdhoc)
+
+	s.mux.HandleFunc("GET /v1/arrays", s.handleListArrays)
+	s.mux.HandleFunc("POST /v1/arrays", s.handleCreateArray)
+	s.mux.HandleFunc("PUT /v1/arrays/{name}", s.handleUpsertArray)
+	s.mux.HandleFunc("GET /v1/arrays/{name}", s.handleGetArray)
+	s.mux.HandleFunc("DELETE /v1/arrays/{name}", s.handleDeleteArray)
+	s.mux.HandleFunc("POST /v1/arrays/{name}/evaluate", s.handleEvaluateArray)
+	s.mux.HandleFunc("POST /v1/arrays/evaluate", s.handleEvaluateArrayAdhoc)
 }
 
 func (s *Server) handleHealth(w http.ResponseWriter, _ *http.Request) {
